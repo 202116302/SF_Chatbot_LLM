@@ -22,9 +22,9 @@ except ImportError:
 
 
 DOCS_DIR = "./docs"
-DB_DIR = "./chroma_db"
-IMAGE_DIR = "./extracted_images"
-TABLE_DIR = "./extracted_tables"
+DB_DIR = "./data/chroma_db"
+IMAGE_DIR = "./data/extracted_images"
+TABLE_DIR = "./data/extracted_tables"
 EMB_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 # dir_list = [DOCS_DIR, DB_DIR, IMAGE_DIR, TABLE_DIR]
