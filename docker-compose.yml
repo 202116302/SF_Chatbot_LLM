@@ -4,7 +4,6 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: ollama
-    # GPU가 없다고 하셨으니까 일단 CPU 모드로
     environment:
       - OLLAMA_HOST=0.0.0.0
     volumes:
@@ -24,17 +23,19 @@ services:
       - OLLAMA_MODEL=qwen2.5:7b
       - IMAGE_DIR=/data/extracted_images
       - TABLE_DIR=/data/extracted_tables
+      # 👇 여기도 맞춰주면 깔끔
+      - HF_HOME=/data/hf_cache
+      - TRANSFORMERS_CACHE=/data/hf_cache
+      - SENTENCE_TRANSFORMERS_HOME=/data/hf_cache
     volumes:
-      # 호스트의 PDF/Chroma를 컨테이너에 붙이기
-      - ./docs:/docs
+      - ./docs:/docs:ro
       - ./data/chroma_db:/data/chroma_db
-      # 이미지/표까지 옮겨서 쓰고 싶으면 아래 두 줄도 추가
       - ./data/extracted_images:/data/extracted_images
       - ./data/extracted_tables:/data/extracted_tables
+      # 👇 캐시를 호스트와 공유해서 다음부터는 다시 안 받게
+      - ./data/hf_cache:/data/hf_cache
     ports:
       - "8000:8000"
-    # 비root로도 돌아가게
-    user: "${UID:-1000}:${GID:-1000}"
 
 volumes:
   ollama-data:
