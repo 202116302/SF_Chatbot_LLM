@@ -25,4 +25,4 @@ ENV EMB_MODEL=sentence-transformers/all-MiniLM-L6-v2
 ENV TOP_K=4
 
 # 컨테이너가 뜨면 일단 FastAPI만 올린다
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "rag_qwen_server:app", "--host", "0.0.0.0", "--port", "8000"]
