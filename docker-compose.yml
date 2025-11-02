@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    # GPU가 없다고 하셨으니까 일단 CPU 모드로
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - "11434:11434"
+
+  rag-api:
+    build: .
+    container_name: smart-rag-api
+    depends_on:
+      - ollama
+    environment:
+      - DOCS_DIR=/docs
+      - DB_DIR=/chroma_db
+      - OLLAMA_URL=http://ollama:11434
+      - OLLAMA_MODEL=qwen2.5:7b
+    volumes:
+      # 호스트의 PDF/Chroma를 컨테이너에 붙이기
+      - ./docs:/docs
+      - ./chroma_db:/chroma_db
+    ports:
+      - "8000:8000"
+    # 비root로도 돌아가게
+    user: "${UID:-1000}:${GID:-1000}"
+
+volumes:
+  ollama-data:
