@@ -19,13 +19,18 @@ services:
       - ollama
     environment:
       - DOCS_DIR=/docs
-      - DB_DIR=/chroma_db
+      - DB_DIR=/data/chroma_db
       - OLLAMA_URL=http://ollama:11434
       - OLLAMA_MODEL=qwen2.5:7b
+      - IMAGE_DIR=/data/extracted_images
+      - TABLE_DIR=/data/extracted_tables
     volumes:
       # 호스트의 PDF/Chroma를 컨테이너에 붙이기
       - ./docs:/docs
-      - ./chroma_db:/chroma_db
+      - ./data/chroma_db:/data/chroma_db
+      # 이미지/표까지 옮겨서 쓰고 싶으면 아래 두 줄도 추가
+      - ./data/extracted_images:/data/extracted_images
+      - ./data/extracted_tables:/data/extracted_tables
     ports:
       - "8000:8000"
     # 비root로도 돌아가게

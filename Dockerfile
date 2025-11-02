@@ -13,11 +13,11 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 앱 코드
-COPY rag_qwen.py index_pdf.py ./
+COPY rag_qwen_server.py index_pdf.py ./
 
 # 데이터는 호스트에서 마운트할 거라 컨테이너 안에서만 경로 정해둠
 ENV DOCS_DIR=/docs
-ENV DB_DIR=/chroma_db
+ENV DB_DIR=/data/chroma_db
 # Ollama 컨테이너와 네트워크로 붙일 거라 이름으로 접근
 ENV OLLAMA_URL=http://ollama:11434
 ENV OLLAMA_MODEL=qwen2.5:7b
